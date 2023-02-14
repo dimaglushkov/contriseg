@@ -10,10 +10,11 @@ import (
 const (
 	usernameEnvVar = "GITHUB_USERNAME"
 	tokenEnvVar    = "GITHUB_TOKEN"
+	locationEnvVar = "TARGET_LOCATION"
 )
 
 func run() error {
-	env, err := internal.GetEnvVariables(usernameEnvVar, tokenEnvVar)
+	env, err := internal.GetEnvVariables(usernameEnvVar, tokenEnvVar, locationEnvVar)
 	if err != nil {
 		return fmt.Errorf("error getting env variables: %w", err)
 	}
@@ -28,7 +29,7 @@ func run() error {
 		return fmt.Errorf("error getting frames: %w", err)
 	}
 
-	return image.GenerateGIF(frames, "contriseg.gif")
+	return image.GenerateGIF(frames, env[locationEnvVar])
 }
 
 func main() {
