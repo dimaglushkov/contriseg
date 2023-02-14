@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/dimaglushkov/contriseg/internal"
+	"github.com/dimaglushkov/contriseg/internal/image"
 	"log"
 )
 
@@ -22,10 +23,12 @@ func run() error {
 		return fmt.Errorf("error getting contributions stats from github: %w", err)
 	}
 
-	if err := internal.GenContributionsSegmentsGIF(cal, "contriseg.gif"); err != nil {
-		return fmt.Errorf("error generating .gif: %w", err)
+	frames, err := image.BFSFrames(cal)
+	if err != nil {
+		return fmt.Errorf("error getting frames: %w", err)
 	}
-	return nil
+
+	return image.GenerateGIF(frames, "contriseg.gif")
 }
 
 func main() {
