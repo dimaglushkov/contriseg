@@ -7,7 +7,7 @@ import (
 )
 
 func GenerateGIF(frames []*image.Paletted, filename string) error {
-	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0633)
 	if err != nil {
 		return err
 	}
