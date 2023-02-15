@@ -2,7 +2,6 @@ package image
 
 import (
 	"github.com/dimaglushkov/contriseg/internal"
-	"github.com/dimaglushkov/contriseg/internal/util"
 	"image"
 	"image/color"
 )
@@ -16,7 +15,10 @@ const (
 	offsetH = 2
 )
 
-var gapW, gapH = 3, 4
+var (
+	gapW = 3
+	gapH = 4
+)
 
 func generatePalette() []color.Color {
 	var palette []color.Color
@@ -59,45 +61,15 @@ func generateFrameFromCal(palette []color.Color, cal internal.Calendar) *image.P
 	return frame
 }
 
-func BFSFrames(cal internal.Calendar) ([]*image.Paletted, error) {
+func GetFrames(cal internal.Calendar, iterator AnimationIterator) ([]*image.Paletted, error) {
 	numOfWeeks := len(cal)
 	gapW, gapH = (w-numOfWeeks*dayW)/(numOfWeeks-1), (h-7*dayH)/6
 
 	var frames []*image.Paletted
-	var queue util.PairQueue
-	var orderQueue util.PairQueue
 
-	directions := [][2]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
 	pal := generatePalette()
-	frames = append(frames, generateFrameFromCal(pal, cal))
-
-	for i := 0; i < numOfWeeks; i++ {
-		for j := 0; j < len(cal[i]); j++ {
-			if cal[i][j] == 0 {
-				queue.Push(i, j)
-				orderQueue.Push(i, j)
-				for len(queue) > 0 {
-					x, y := queue.Pop()
-					if cal[x][y] != 0 {
-						continue
-					}
-					cal[x][y] = -1
-					frames = append(frames, generateFrameFromCal(pal, cal))
-					orderQueue.Push(x, y)
-					for _, d := range directions {
-						if nx, ny := x+d[0], y+d[1]; nx >= 0 && nx < numOfWeeks && ny >= 0 && ny < len(cal[nx]) && cal[nx][ny] == 0 {
-							queue.Push(nx, ny)
-						}
-					}
-				}
-			}
-		}
-	}
-
-	for len(orderQueue) > 0 {
-		x, y := orderQueue.Pop()
-		cal[x][y] = 0
-		frames = append(frames, generateFrameFromCal(pal, cal))
+	for _, c := range iterator(cal, true) {
+		frames = append(frames, generateFrameFromCal(pal, c))
 	}
 
 	return frames, nil
