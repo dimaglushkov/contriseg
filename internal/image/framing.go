@@ -52,7 +52,7 @@ func generateFrameFromCal(palette []color.Color, cal internal.Calendar) *image.P
 	for i := range cal {
 		for j := range cal[i] {
 			if cal[i][j] == -1 {
-				drawDay(frame, &DarkBlueColor, i, j)
+				drawDay(frame, &BlueColor, i, j)
 			} else {
 				drawDay(frame, &GithubContribScheme[cal[i][j]], i, j)
 			}

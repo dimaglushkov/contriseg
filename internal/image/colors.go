@@ -15,6 +15,7 @@ var GithubContribScheme = []color.RGBA{
 }
 
 var DarkBlueColor = color.RGBA{R: 16, G: 33, B: 97, A: 1}
+var BlueColor = color.RGBA{R: 87, G: 99, B: 255, A: 1}
 
 var GradientScheme = []color.RGBA{
 	{17, 30, 81, 1},
