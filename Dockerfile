@@ -10,4 +10,4 @@ RUN chmod +x main bin/compress.sh
 
 RUN  apt-get update && apt-get install gifsicle -y
 
-CMD ./main ; ./bin/compress.sh
+CMD ./main && ./bin/compress.sh

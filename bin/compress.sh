@@ -1,3 +1,5 @@
+#!/bin/sh
+
 if ! which gifsicle ; then
   echo "gifsicle was not found, exiting"
   return 1
