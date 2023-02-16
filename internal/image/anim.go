@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-type AnimationIterator func(cal internal.Calendar, backwards bool) []internal.Calendar
+type AnimationIterator func(cal internal.Calendar) []internal.Calendar
 
 var animationsMap = map[string]AnimationIterator{
 	"bfs":  CalendarBFSIterations,
@@ -34,7 +34,7 @@ func GetAnimationIterator(animation string) (AnimationIterator, error) {
 	return iter, nil
 }
 
-func CalendarBFSIterations(cal internal.Calendar, backwards bool) []internal.Calendar {
+func CalendarBFSIterations(cal internal.Calendar) []internal.Calendar {
 	iterations := []internal.Calendar{cal}
 	numOfWeeks := len(cal)
 	var queue util.PairQueue
@@ -51,7 +51,7 @@ func CalendarBFSIterations(cal internal.Calendar, backwards bool) []internal.Cal
 					if cal[x][y] != 0 {
 						continue
 					}
-					cal[x][y] = -1
+					cal[x][y] = BlueColor
 					iterations = append(iterations, cal.Dup())
 
 					orderQueue.Push(x, y)
@@ -64,7 +64,7 @@ func CalendarBFSIterations(cal internal.Calendar, backwards bool) []internal.Cal
 			}
 		}
 	}
-	for backwards && len(orderQueue) > 0 {
+	for len(orderQueue) > 0 {
 		x, y := orderQueue.Pop()
 		cal[x][y] = 0
 		iterations = append(iterations, cal.Dup())
@@ -73,7 +73,7 @@ func CalendarBFSIterations(cal internal.Calendar, backwards bool) []internal.Cal
 	return iterations
 }
 
-func CalendarColByColIterations(cal internal.Calendar, backwards bool) []internal.Calendar {
+func CalendarColByColIterations(cal internal.Calendar) []internal.Calendar {
 	iterations := []internal.Calendar{cal}
 	var orderQueue util.PairQueue
 	facingUp := true
@@ -82,7 +82,7 @@ func CalendarColByColIterations(cal internal.Calendar, backwards bool) []interna
 		if facingUp {
 			for j := len(cal[i]) - 1; j >= 0; j-- {
 				if cal[i][j] == 0 {
-					cal[i][j] = -1
+					cal[i][j] = BlueColor
 					orderQueue.Push(i, j)
 					iterations = append(iterations, cal.Dup())
 				}
@@ -90,7 +90,7 @@ func CalendarColByColIterations(cal internal.Calendar, backwards bool) []interna
 		} else {
 			for j := 0; j < len(cal[i]); j++ {
 				if cal[i][j] == 0 {
-					cal[i][j] = -1
+					cal[i][j] = BlueColor
 					orderQueue.Push(i, j)
 					iterations = append(iterations, cal.Dup())
 				}
@@ -99,7 +99,7 @@ func CalendarColByColIterations(cal internal.Calendar, backwards bool) []interna
 		facingUp = !facingUp
 	}
 
-	for backwards && len(orderQueue) > 0 {
+	for len(orderQueue) > 0 {
 		x, y := orderQueue.Pop()
 		cal[x][y] = 0
 		iterations = append(iterations, cal.Dup())
@@ -108,7 +108,7 @@ func CalendarColByColIterations(cal internal.Calendar, backwards bool) []interna
 	return iterations
 }
 
-func CalendarMoveColLeftIterations(cal internal.Calendar, backwards bool) []internal.Calendar {
+func CalendarMoveColLeftIterations(cal internal.Calendar) []internal.Calendar {
 	iterations := []internal.Calendar{cal}
 	n := len(cal)
 	tmp, last := make([]int8, 7), make([]int8, 7)

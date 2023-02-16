@@ -37,11 +37,13 @@ To do that just run
 To create a new animation you only need to do two things:
 1. Implement function of type 
 ```go
-type Iterator func(cal internal.Calendar, backwards bool) []internal.Calendar
+type Iterator func(cal internal.Calendar) []internal.Calendar
 ```
 which should return a list of continuously changing `Calendar` (it's basically frames for Calendar).
 
 Check out [`anim.go`](https://github.com/dimaglushkov/contriseg/blob/main/internal/image/anim.go) to see predefined animations.
+
+
 2. After animation is completed, insert it's alias and name to [iterationsMap](https://github.com/dimaglushkov/contriseg/blob/main/internal/image/anim.go#L12)
 ```go
 var animationsMap = map[string]AnimationIterator{

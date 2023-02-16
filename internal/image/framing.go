@@ -22,11 +22,7 @@ var (
 
 func generatePalette() []color.Color {
 	var palette []color.Color
-	palette = append(palette, BackgroundColor)
-	for _, c := range GithubContribScheme {
-		palette = append(palette, c)
-	}
-	for _, c := range GradientScheme {
+	for _, c := range ColorScheme {
 		palette = append(palette, c)
 	}
 	return palette
@@ -43,19 +39,14 @@ func drawDay(frame *image.Paletted, c *color.RGBA, weekNum, dayNum int) {
 
 func generateFrameFromCal(palette []color.Color, cal internal.Calendar) *image.Paletted {
 	frame := image.NewPaletted(image.Rect(0, 0, w, h), palette)
-	for i := range cal {
-		for j := range cal[i] {
-			drawDay(frame, &BackgroundColor, i, j)
+	for i := 0; i < w; i++ {
+		for j := 0; j < h; j++ {
+			frame.Set(i, j, ColorScheme[BackgroundColor])
 		}
 	}
-
 	for i := range cal {
 		for j := range cal[i] {
-			if cal[i][j] == -1 {
-				drawDay(frame, &BlueColor, i, j)
-			} else {
-				drawDay(frame, &GithubContribScheme[cal[i][j]], i, j)
-			}
+			drawDay(frame, &ColorScheme[cal[i][j]], i, j)
 		}
 	}
 	return frame
@@ -68,7 +59,7 @@ func GetFrames(cal internal.Calendar, iterator AnimationIterator) ([]*image.Pale
 	var frames []*image.Paletted
 
 	pal := generatePalette()
-	for _, c := range iterator(cal, true) {
+	for _, c := range iterator(cal) {
 		frames = append(frames, generateFrameFromCal(pal, c))
 	}
 
