@@ -19,11 +19,9 @@ GITHUB_TOKEN=<previously generated token>
 TARGET_LOCATION=<output file location>
 ANIMATION=<animation type ()predefined: bfs, cbc, move)>
 ```
-4. Download dependencies, build, and run the application
+4. Download dependencies, build, and run the application:
 ```bash
-go mod download
-go build -o main
-./main
+go run .
 ```
 
 ### Compressing resulting GIF
