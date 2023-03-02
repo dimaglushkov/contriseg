@@ -11,7 +11,7 @@ func GetEnvVariables(names ...string) (map[string]string, error) {
 	m, err := loadEnvVariables(names...)
 	if err != nil {
 		log.Print("was not able to load all required env variables: ", err)
-		log.Print("loading bfs.env file and retrying")
+		log.Print("loading .env file and retrying")
 		if err := godotenv.Load(); err != nil {
 			return nil, err
 		}

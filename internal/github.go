@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"github.com/dimaglushkov/contriseg/internal/image"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 )
@@ -42,15 +43,15 @@ func GetContributions(username, token string) (Calendar, error) {
 		for j := range cal[i] {
 			switch weeks[i].ContributionDays[j].ContributionLevel {
 			case "NONE":
-				cal[i][j] = 0
+				cal[i][j] = image.GithubNoContribColor
 			case "FIRST_QUARTILE":
-				cal[i][j] = 1
+				cal[i][j] = image.GithubFirstQuadrantColor
 			case "SECOND_QUARTILE":
-				cal[i][j] = 2
+				cal[i][j] = image.GithubSecondQuadrantColor
 			case "THIRD_QUARTILE":
-				cal[i][j] = 3
+				cal[i][j] = image.GithubThirdQuadrantColor
 			case "FOURTH_QUARTILE":
-				cal[i][j] = 4
+				cal[i][j] = image.GithubFourthQuadrantColor
 			}
 		}
 	}
