@@ -1,4 +1,4 @@
-package animations
+package animation
 
 import (
 	"github.com/dimaglushkov/contriseg/internal"
@@ -6,7 +6,7 @@ import (
 	"github.com/dimaglushkov/contriseg/internal/util"
 )
 
-func CalendarBFSIterations(cal internal.Calendar) []internal.Calendar {
+func DrawBFS(cal internal.Calendar) []internal.Calendar {
 	iterations := []internal.Calendar{cal}
 	numOfWeeks := len(cal)
 	var queue util.PairQueue

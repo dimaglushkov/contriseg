@@ -1,8 +1,8 @@
-package animations
+package animation
 
 import "github.com/dimaglushkov/contriseg/internal"
 
-func CalendarMoveColLeftIterations(cal internal.Calendar) []internal.Calendar {
+func MoveColLeft(cal internal.Calendar) []internal.Calendar {
 	iterations := []internal.Calendar{cal}
 	n := len(cal)
 	tmp, last := make([]int8, 7), make([]int8, 7)

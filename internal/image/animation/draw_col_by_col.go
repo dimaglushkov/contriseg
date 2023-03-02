@@ -1,4 +1,4 @@
-package animations
+package animation
 
 import (
 	"github.com/dimaglushkov/contriseg/internal"
@@ -6,7 +6,7 @@ import (
 	"github.com/dimaglushkov/contriseg/internal/util"
 )
 
-func CalendarColByColIterations(cal internal.Calendar) []internal.Calendar {
+func DrawColByColLeft(cal internal.Calendar) []internal.Calendar {
 	iterations := []internal.Calendar{cal}
 	var orderQueue util.PairQueue
 	facingUp := true

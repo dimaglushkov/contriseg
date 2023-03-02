@@ -3,33 +3,37 @@ package image
 import (
 	"fmt"
 	"github.com/dimaglushkov/contriseg/internal"
-	"github.com/dimaglushkov/contriseg/internal/image/animations"
+	"github.com/dimaglushkov/contriseg/internal/image/animation"
 	"strings"
 )
 
-type AnimationIterator func(cal internal.Calendar) []internal.Calendar
+type AnimationFunc func(cal internal.Calendar) []internal.Calendar
 
-var animationsMap = map[string]AnimationIterator{
-	"bfs":  animations.CalendarBFSIterations,
-	"move": animations.CalendarMoveColLeftIterations,
-	"cbc":  animations.CalendarColByColIterations,
+var animationsMap = map[string]AnimationFunc{
+	"bfs":  animation.DrawBFS,
+	"move": animation.MoveColLeft,
+	"cbc":  animation.DrawColByColLeft,
 }
 
 func GetAvailableAnimations() []string {
-	availableAnimations := make([]string, 0, len(animationsMap))
+	anims := make([]string, 0, len(animationsMap))
 	for k := range animationsMap {
-		availableAnimations = append(availableAnimations, k)
+		anims = append(anims, k)
 	}
-	return availableAnimations
+	return anims
 }
 
-func GetAnimationIterator(animation string) (AnimationIterator, error) {
-	var iter AnimationIterator
+func GetAnimationIterator(animAlias string) (AnimationFunc, error) {
+	var anim AnimationFunc
 	var ok bool
 
-	if iter, ok = animationsMap[strings.ToLower(animation)]; !ok {
-		return nil, fmt.Errorf("unknown framing animation: %s, available animations are: %s (case insesnsetive)", animation, strings.Join(GetAvailableAnimations(), ", "))
+	if anim, ok = animationsMap[strings.ToLower(animAlias)]; !ok {
+		return nil, fmt.Errorf(
+			"unknown animation: %s, available animations are: %s (case insesnsetive)",
+			animAlias,
+			strings.Join(GetAvailableAnimations(), ", "),
+		)
 	}
 
-	return iter, nil
+	return anim, nil
 }

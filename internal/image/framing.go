@@ -52,7 +52,7 @@ func generateFrameFromCal(palette []color.Color, cal internal.Calendar) *image.P
 	return frame
 }
 
-func GetFrames(cal internal.Calendar, iterator AnimationIterator) ([]*image.Paletted, error) {
+func GetFrames(cal internal.Calendar, iterator AnimationFunc) ([]*image.Paletted, error) {
 	numOfWeeks := len(cal)
 	gapW, gapH = (w-numOfWeeks*dayW)/(numOfWeeks-1), (h-7*dayH)/6
 
